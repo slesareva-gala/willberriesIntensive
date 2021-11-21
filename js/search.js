@@ -1,7 +1,10 @@
-﻿// получение и сохранение данных, 
-const getGoods = ()=> {
-  // nodeList элементов с классом ".navigation-link" ( кнопок )
-  const links = document.querySelectorAll(".navigation-link")
+﻿// поиск
+const search = ()=> {
+  const input = document.querySelector('.search-block > input')
+  const searchBtn = document.querySelector('.search-block > button')
+  // кнопочка "новинки"
+  const linkNew = document.querySelector(".col-3")
+
 
   // прорисовка карточек товаров
   const renderGoods = (goods) => {
@@ -36,11 +39,11 @@ const getGoods = ()=> {
 
   // получение данных с сервера и сохрание их в localStorage 
   // всех или отобранных по заданной категории
-  const getData = ( value, category) => {
+  const getData = ( value ) => {
     fetch("https://goods-9a67e-default-rtdb.firebaseio.com/db.json")
       .then( (res) => res.json() )
       .then( (data) => {
-        const array = category ? data.filter( (item)=> item[category] === value ) : data
+        const array = data.filter( good => good.name.toLowerCase().includes(value.toLowerCase()) )
 
         localStorage.setItem('goods', JSON.stringify(array)) 
       // переход на страничку товаров
@@ -56,26 +59,26 @@ const getGoods = ()=> {
       } )
   }
 
-  // подключение действий по нажатию кнопок меню 
-  links.forEach( (link) =>{
-    link.addEventListener('click', (event)=>{
-      // здесь, доступны внешние переменные, например, link - кнопка
-      event.preventDefault()  // отменить действие браузера по умл.
-      // название категории товара (соответствует названию пункта меню)
-      const linkValue = link.textContent   
-      // название поля категории в json для поиска товара, соотв.пункту меню 
-      const category = link.dataset.field  
-      getData(linkValue, category)
+
+  // действия на нажатие кнопки поиска через подключение с обработчиком ошибок
+  try {
+    searchBtn.addEventListener('click', ( event )=>{
+      getData(input.value);
+    })
+  } catch (e) {
+    //console.dir(e)   // для выбора, какое свойстово выводить
+    console.error("Верните класс search-block !",e.message)   // == .log красным цветом
+  }
+
+  // подключение просмотра новинок на главной странице
+  if ( linkNew) {
+    linkNew.addEventListener('click', (event)=>{
+      event.preventDefault()
+      // по заданию - вывести все (без отбора)
+      getData('')
     } )
-  } )
+  }
 
 
-  // показ данных последнего посещения
-  if ( NOSERV ? 
-        localStorage.getItem('goods') && window.location.pathname.includes('/goods.html') 
-      : localStorage.getItem('goods') && window.location.pathname === '/goods.html'
-     )
-    renderGoods(JSON.parse( localStorage.getItem('goods') ))
 }
-
-getGoods()
+search()
