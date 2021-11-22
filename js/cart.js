@@ -1,5 +1,5 @@
 ﻿// признак отладки без сервера
-const NOSERV = false;
+const NOSERV = false
 
 // корзина
 const cart = ()=> {
@@ -15,7 +15,7 @@ const cart = ()=> {
   // ссылка на форму отправки содержимого корзины на сервер 
   const modalForm = document.querySelector('.modal-form')
   // ссылка на имя покупателя и на телефон
-  var nameCustomer, phoneCustomer
+  var nameCustomer='', phoneCustomer=''
   document.querySelectorAll('.modal-input').forEach( (el) => {
     if (el.name === 'nameCustomer' ) nameCustomer = el; 
     else if (el.name === 'phoneCustomer' ) phoneCustomer = el;
@@ -146,8 +146,12 @@ const cart = ()=> {
     const cartArray = localStorage.getItem('cart') ?
       JSON.parse( localStorage.getItem('cart') ) : []
 
+    nameCustomer.value  = nameCustomer.value.trim();
+    phoneCustomer.value = phoneCustomer.value.trim();
+
+
     // делаем отправку для заполненной корзины
-    if ( cartArray.length ) {
+    if ( cartArray.length && nameCustomer.value && phoneCustomer.value ) {
       fetch('https://jsonplaceholder.typicode.com/posts',{
         method: 'POST',
         body: JSON.stringify({
