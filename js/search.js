@@ -2,8 +2,6 @@
 const search = ()=> {
   const input = document.querySelector('.search-block > input')
   const searchBtn = document.querySelector('.search-block > button')
-  // кнопочка "новинки"
-  const linkNew = document.querySelector(".col-3")
 
 
   // прорисовка карточек товаров
@@ -62,21 +60,10 @@ const search = ()=> {
 
   // действия на нажатие кнопки поиска через подключение с обработчиком ошибок
   try {
-    searchBtn.addEventListener('click', ( event )=>{
-      getData(input.value);
-    })
+    searchBtn.addEventListener('click', ()=>{ getData(input.value) })
   } catch (e) {
     //console.dir(e)   // для выбора, какое свойстово выводить
     console.error("Верните класс search-block !",e.message)   // == .log красным цветом
-  }
-
-  // подключение просмотра новинок на главной странице
-  if ( linkNew) {
-    linkNew.addEventListener('click', (event)=>{
-      event.preventDefault()
-      // по заданию - вывести все (без отбора)
-      getData('')
-    } )
   }
 
 

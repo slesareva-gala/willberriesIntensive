@@ -2,6 +2,8 @@
 const getGoods = ()=> {
   // nodeList элементов с классом ".navigation-link" ( кнопок )
   const links = document.querySelectorAll(".navigation-link")
+  // кнопочка "новинки"
+  const more = document.querySelector(".more")
 
   // прорисовка карточек товаров
   const renderGoods = (goods) => {
@@ -68,7 +70,14 @@ const getGoods = ()=> {
       getData(linkValue, category)
     } )
   } )
-
+  // подключение просмотра новинок на главной странице
+  if ( more) {
+    more.addEventListener('click', (event)=>{
+      event.preventDefault()
+      // по заданию - вывести все (без отбора)
+      getData()
+    } )
+  }
 
   // показ данных последнего посещения
   if ( NOSERV ? 
