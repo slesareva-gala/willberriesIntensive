@@ -3,4 +3,4 @@
 
 **Автор интенсива:** Александр Ильясов
 
-## Посмотреть на github: [демо результата](https://slesareva-gala.github.io/iPhone13Intensive/)
+## Посмотреть на github: [демо результата](https://slesareva-gala.github.io/willberriesIntensive/)
