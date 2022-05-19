@@ -42,11 +42,12 @@ const search = ()=> {
       .then( (res) => res.json() )
       .then( (data) => {
         const array = data.filter( good => good.name.toLowerCase().includes(value.toLowerCase()) )
+        const site = window.location
 
         localStorage.setItem('goods', JSON.stringify(array)) 
       // переход на страничку товаров
-      if ( window.location.pathname !== '/goods.html' ) {
-        window.location.href = '/goods.html' 
+      if (!site.pathname.includes('goods.html')) {
+        site.replace(site.toString().replace(/[^\/]*$/, '') + 'goods.html');
       } else {
         renderGoods(array)
       }

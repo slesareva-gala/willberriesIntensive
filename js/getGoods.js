@@ -47,8 +47,6 @@ const getGoods = () => {
 
         localStorage.setItem('goods', JSON.stringify(array))
         // переход на страничку товаров
-        //if (window.location.pathname !== '/goods.html') {
-        //  window.location.href = '/goods.html'
         if (!site.pathname.includes('goods.html')) {
           site.replace(site.toString().replace(/[^\/]*$/, '') + 'goods.html');
         } else {
