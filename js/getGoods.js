@@ -43,11 +43,14 @@ const getGoods = () => {
       .then((res) => res.json())
       .then((data) => {
         const array = category ? data.filter((item) => item[category] === value) : data
+        const site = window.location
 
         localStorage.setItem('goods', JSON.stringify(array))
         // переход на страничку товаров
-        if (window.location.pathname !== '/goods.html') {
-          window.location.href = '/goods.html'
+        //if (window.location.pathname !== '/goods.html') {
+        //  window.location.href = '/goods.html'
+        if (!site.pathname.includes('goods.html')) {
+          site.replace(site.toString().replace(/[^\/]*$/, '') + 'goods.html');
         } else {
           renderGoods(array)
         }
