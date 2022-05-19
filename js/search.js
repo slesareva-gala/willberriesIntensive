@@ -38,17 +38,14 @@ const search = ()=> {
   // получение данных с сервера и сохрание их в localStorage 
   // всех или отобранных по заданной категории
   const getData = ( value ) => {
-    fetch("https://goods-9a67e-default-rtdb.firebaseio.com/db.json")
+    fetch("./db/db.json")
       .then( (res) => res.json() )
       .then( (data) => {
         const array = data.filter( good => good.name.toLowerCase().includes(value.toLowerCase()) )
 
         localStorage.setItem('goods', JSON.stringify(array)) 
       // переход на страничку товаров
-      if ( NOSERV ? 
-             !window.location.pathname.includes('/goods.html')  
-           : window.location.pathname !== '/goods.html'
-         ) {
+      if ( window.location.pathname !== '/goods.html' ) {
         window.location.href = '/goods.html' 
       } else {
         renderGoods(array)

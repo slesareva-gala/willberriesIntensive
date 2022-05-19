@@ -1,5 +1,5 @@
 ﻿// получение и сохранение данных, 
-const getGoods = ()=> {
+const getGoods = () => {
   // nodeList элементов с классом ".navigation-link" ( кнопок )
   const links = document.querySelectorAll(".navigation-link")
   // кнопочка "новинки"
@@ -12,7 +12,7 @@ const getGoods = ()=> {
     // очистим контейнер 
     goodsContainer.innerHTML = ''
 
-    goods.forEach( good => {
+    goods.forEach(good => {
       // шаблон блока товаров
       const goodBlock = document.createElement('div')
       goodBlock.classList.add('col-lg-3')
@@ -33,58 +33,52 @@ const getGoods = ()=> {
       // заполняем контейнер карточками согласно списка
       goodsContainer.append(goodBlock)
 
-    } )
+    })
   }
 
   // получение данных с сервера и сохрание их в localStorage 
   // всех или отобранных по заданной категории
-  const getData = ( value, category) => {
-    fetch("https://goods-9a67e-default-rtdb.firebaseio.com/db.json")
-      .then( (res) => res.json() )
-      .then( (data) => {
-        const array = category ? data.filter( (item)=> item[category] === value ) : data
+  const getData = (value, category) => {
+    fetch("./db/db.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const array = category ? data.filter((item) => item[category] === value) : data
 
-        localStorage.setItem('goods', JSON.stringify(array)) 
-      // переход на страничку товаров
-      if ( NOSERV ? 
-             !window.location.pathname.includes('/goods.html')  
-           : window.location.pathname !== '/goods.html'
-         ) {
-        window.location.href = '/goods.html' 
-      } else {
-        renderGoods(array)
-      }
+        localStorage.setItem('goods', JSON.stringify(array))
+        // переход на страничку товаров
+        if (window.location.pathname !== '/goods.html') {
+          window.location.href = '/goods.html'
+        } else {
+          renderGoods(array)
+        }
 
-      } )
+      })
   }
 
   // подключение действий по нажатию кнопок меню 
-  links.forEach( (link) =>{
-    link.addEventListener('click', (event)=>{
+  links.forEach((link) => {
+    link.addEventListener('click', (event) => {
       // здесь, доступны внешние переменные, например, link - кнопка
       event.preventDefault()  // отменить действие браузера по умл.
       // название категории товара (соответствует названию пункта меню)
-      const linkValue = link.textContent   
+      const linkValue = link.textContent
       // название поля категории в json для поиска товара, соотв.пункту меню 
-      const category = link.dataset.field  
+      const category = link.dataset.field
       getData(linkValue, category)
-    } )
-  } )
+    })
+  })
   // подключение просмотра новинок на главной странице
-  if ( more) {
-    more.addEventListener('click', (event)=>{
+  if (more) {
+    more.addEventListener('click', (event) => {
       event.preventDefault()
       // по заданию - вывести все (без отбора)
       getData()
-    } )
+    })
   }
 
   // показ данных последнего посещения
-  if ( NOSERV ? 
-        localStorage.getItem('goods') && window.location.pathname.includes('/goods.html') 
-      : localStorage.getItem('goods') && window.location.pathname === '/goods.html'
-     )
-    renderGoods(JSON.parse( localStorage.getItem('goods') ))
+  if (localStorage.getItem('goods') && window.location.pathname === '/goods.html')
+    renderGoods(JSON.parse(localStorage.getItem('goods')))
 }
 
 getGoods()

@@ -1,7 +1,4 @@
-﻿// признак отладки без сервера
-const NOSERV = false
-
-// корзина
+﻿// корзина
 const cart = ()=> {
   const cartBtn = document.querySelector('.button-cart')
   const cart = document.getElementById('modal-cart')
