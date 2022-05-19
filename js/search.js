@@ -45,6 +45,7 @@ const search = ()=> {
         const site = window.location
 
         localStorage.setItem('goods', JSON.stringify(array)) 
+      
       // переход на страничку товаров
       if (!site.pathname.includes('goods.html')) {
         site.replace(site.toString().replace(/[^\/]*$/, '') + 'goods.html');
